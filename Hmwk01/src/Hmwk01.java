@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Homework01 {
+public class Hmwk01 {
     public static void main(String args[]){
         ArrayList<String> students = new ArrayList<String>();
         students.add("Dustin");
