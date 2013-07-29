@@ -52,7 +52,21 @@ public class CoinCounter {
             Assignment: Implement this algorithm below and make testSimpleNumberOfCoinsRequired pass.
          */
 
-        throw new NotImplementedException();
+        int numberOfCoins = 0;
+        int tempSum = totalSum;
+
+        for(int i = denominations.length - 1; i >= 0; i--){
+            if(denominations[i] == totalSum){
+                numberOfCoins = 1;
+                break;
+            }
+            else if(denominations[i]< totalSum) {
+                numberOfCoins += tempSum / denominations[i];
+                tempSum = tempSum % denominations[i];
+            }
+        }
+
+        return numberOfCoins;
     }
 
     /**
@@ -88,17 +102,39 @@ public class CoinCounter {
             Second assignment: Make testWonderlandDenominations pass
             Third assignment: Make testTerribleDenominations pass
          */
-
-        throw new NotImplementedException();
-
+        int numOfCoins;
         // Instructor sample soln: Remove before giving to students:
         // Speed, O(m * n), m = totalSum, n = number of coins
-        /*int[] numberOfCoinsRequiredAtValue = new int[totalSum + 1];
+        int[] numberOfCoinsRequiredAtValue = new int[totalSum + 1];
 
-        for (int i = 1; i < numberOfCoinsRequiredAtValue.length; i++) {
-            // TODO
+        for(int i = denominations.length - 1; i >= 0; i--){
+            if(denominations[i] < totalSum){
+                numberOfCoinsRequiredAtValue[denominations[i]] = 1;
+            }
+            else if(denominations[i] == totalSum){
+                return 1;
+            }
         }
 
-        return numberOfCoinsRequiredAtValue[totalSum];*/
+        // Set it at totalSum because we know nothing will ever be larger than that
+        int numberOfCoins = CHANGE_NOT_POSSIBLE_FLAG;
+        int leftover;
+
+        for(int i = 1; i < numberOfCoinsRequiredAtValue.length; i++) {
+            if(numberOfCoinsRequiredAtValue[i] == 0){
+                for(int j = denominations.length - 1; j >= 0; j--){
+                    if(denominations[j] < totalSum && denominations[j] < i){
+                        leftover = i - denominations[j];
+                        if(numberOfCoinsRequiredAtValue[leftover] != CHANGE_NOT_POSSIBLE_FLAG && numberOfCoinsRequiredAtValue[leftover] + 1 < numberOfCoins ){
+                            numberOfCoins = numberOfCoinsRequiredAtValue[leftover] + 1;
+                        }
+                    }
+                }
+                numberOfCoinsRequiredAtValue[i] = numberOfCoins;
+                numberOfCoins = CHANGE_NOT_POSSIBLE_FLAG;
+            }
+        }
+
+        return numberOfCoinsRequiredAtValue[totalSum];
     }
 }

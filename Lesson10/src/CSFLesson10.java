@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class CSFLesson10 {
 
@@ -7,19 +8,18 @@ public class CSFLesson10 {
     static void firstLab() {
         // Instantiate and populate an array of 10 random floats.
         float[] array = new float[10];
+        float total = 0.0f;
         for (int i = 0; i < 10; i++) {
             array[i] = (float) Math.random();
+            total += array[i];
         }
+        float average = total / 10.0f;
 
         System.out.println("Array: " + Arrays.toString(array));
 
         for (int i = 0; i < 10; i++) {
             float thisValue = array[i];
-            float total = 0.0f;
-            for (int j = 0; j < 10; j++) {
-                total += array[j];
-            }
-            float average = total / 10.0f;
+
             System.out.println("Value " + thisValue + " is " + (thisValue / average) * 100.0f + "% of the average.");
         }
     }
@@ -34,18 +34,19 @@ public class CSFLesson10 {
             array[i] = (int) (Math.random() * 10.0);
         }
 
+        HashMap <Integer, Boolean> uniqueValues = new HashMap<Integer, Boolean>();
         System.out.println("Array: " + Arrays.toString(array));
-
+        int thisValue;
         for (int i = 0; i < 10; i++) {
-            int thisValue = array[i];
-            boolean isDuplicate = false;
-            for (int j = 0; j < 10; j++) {
-                if ((i != j) && (thisValue == array[j])) {
-                    isDuplicate = true;
-                }
+            thisValue = array[i];
+            if(uniqueValues.get(thisValue) != null){
+                uniqueValues.put(thisValue, true);
             }
+        }
 
-            if (isDuplicate) {
+        for (int i = 0; i < 10; i++){
+            thisValue = array[i];
+            if (uniqueValues.get(thisValue)) {
                 System.out.println("Value " + thisValue + " is a duplicate.");
             } else {
                 System.out.println("Value " + thisValue + " is not a duplicate.");
@@ -86,7 +87,7 @@ public class CSFLesson10 {
 
     public static void main(String[] args) {
         //firstLab();
-        //secondLab();
+//        secondLab();
         thirdLab();
         //fourthLab();
         //fifthLab();
